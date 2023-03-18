@@ -1,3 +1,6 @@
+#include <Debounce.h>
+
+
 int zero = 33;
 int one = 32;
 int two = 31;
@@ -24,6 +27,8 @@ int eightButtonStatus = 0;
 int nineButtonStatus = 0;
 int enterButtonStatus = 0;
 int cancelButtonStatus = 0;
+
+Debounce Button0(zero, 1000, true);
 
 void setup() {
   // put your setup code here, to run once:
@@ -73,42 +78,44 @@ void loop() {
   enterButtonStatus = enterPinValue;      
   cancelButtonStatus = cancelPinValue;
     
-  if (zeroButtonStatus == 0) {      
-      Serial.println("zero") ;    
-    }
+  /*if (zeroButtonStatus == 0) {      
+      Serial.println("0") ;    
+    }*/
+  Serial.write(Button0.read());
+  
   if (oneButtonStatus == 0) {
-      Serial.println("one: ");    
+      Serial.println("1");    
     }
   if (twoButtonStatus  == 0) {
-      Serial.println("two: ");    
+      Serial.println("2");    
     }
   if (threeButtonStatus  == 0) {
       
-      Serial.println("three: ");    
+      Serial.println("3");    
     }
   if (fourButtonStatus  == 0) {
-      Serial.println("four: ") ;    
+      Serial.println("4") ;    
     }
   if (fiveButtonStatus  == 0) {
-      Serial.println("five: ");    
+      Serial.println("5");    
     }
   if (sixButtonStatus  == 0) {
-      Serial.println("six: ");    
+      Serial.println("6");    
     }
   if (sevenButtonStatus  == 0) {
-      Serial.println("seven: ");    
+      Serial.println("7");    
     }
   if (eightButtonStatus  == 0) {
-      Serial.println("eight: ");    
+      Serial.println("8");    
     }
   if (nineButtonStatus  == 0) {
-      Serial.println("nine: ") ;    
+      Serial.println("9") ;    
     }
   if (enterButtonStatus  == 0) {
-      Serial.println("enter: ");    
+      Serial.println("enter");    
     }
   if (cancelButtonStatus  == 0) {
-      Serial.println("cancel: ");    
+      Serial.println("cancel");    
     }    
   delay(10);
 }
