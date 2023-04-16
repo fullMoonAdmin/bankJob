@@ -1,5 +1,6 @@
-
+#include <pitches.h>
 #include <ezButton.h>
+
 ezButton button0(33);
 ezButton button1(32);
 ezButton button2(31);
@@ -12,6 +13,8 @@ ezButton button8(25);
 ezButton button9(24);
 ezButton buttonEnter(23);
 ezButton buttonCancel(22);
+int speakerPin = 3;
+int relayPin = 4;
 
 String Answer[4]{"nill", "nill", "nill", "nill"}; 
 
@@ -20,6 +23,8 @@ char ip;
 bool cardPresent =  false;
 int messageLen = 0;
 void setup() {
+  pinMode(relayPin, OUTPUT);
+
   Serial.begin(9600);
   Serial2.begin(9600);
   Serial3.begin(9600);
@@ -36,19 +41,45 @@ void setup() {
   button0.setDebounceTime(50); // set debounce time to 50 milliseconds
   buttonEnter.setDebounceTime(50); // set debounce time to 50 milliseconds
   buttonCancel.setDebounceTime(50); // set debounce time to 50 milliseconds
- 
-  
+   
   Serial.println("ATM is ready!");
-  
+  delay(2000);
+  digitalWrite(relayPin, HIGH);
+  Serial.println("RFID Active");
+   
 }
 
+ void missionImpossible() {
+        tone(speakerPin, NOTE_GS3, 500);
+        delay(550);
+        tone(speakerPin, NOTE_GS3, 500);
+        delay(650);
+        tone(speakerPin, NOTE_AS3, 250);
+        delay(375);
+        tone(speakerPin, NOTE_C4, 250);
+        delay(450);
+        tone(speakerPin, NOTE_GS3, 500);
+        delay(550);
+        tone(speakerPin, NOTE_GS3, 500);
+        delay(650);
+        tone(speakerPin, NOTE_F3, 250);
+        delay(375);
+        tone(speakerPin, NOTE_FS3, 250);
+        delay(500);
+    };
+
 void loop() {
-  if (Serial2.available())
+ 
+  if (Serial2.available())  
   {
     ip=Serial2.read();
-    cardPresent = true; 
+    Serial.println(ip);
+
+    
   }
-  
+  if(ip == 'x'){
+    cardPresent = true;
+    } 
   if (cardPresent == true){
     if(messageLen < 1){
       messageLen ++;
@@ -327,11 +358,13 @@ void loop() {
   if(buttonEnter.isPressed()){
     Serial.println("The button enter is pressed");
   if ((Answer[0] == "two") && (Answer[1] == "one") && (Answer[2] == "nine") && (Answer[3] == "zero")){
-    Serial.println("Solved");
+    Serial.println("Solved");    
     delay(50);
+    
     Serial3.write(0xFC);
     delay(50);
     Serial3.write(0x06);
+    missionImpossible();
     
   }else{
     Serial.println("Incorrect Pin Please Retry");
@@ -369,5 +402,6 @@ void loop() {
   }
   
   }
+  
   
 }

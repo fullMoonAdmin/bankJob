@@ -63,6 +63,8 @@ void setup() {
   Serial.println("Reader Ready!");
   pinMode(signalPin, OUTPUT);
   digitalWrite(signalPin, LOW);
+    delay(3000);
+
 }
 void temp(byte *buffer, byte bufferSize)
 {
